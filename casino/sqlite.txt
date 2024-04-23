@@ -1,0 +1,88 @@
+    async with aiosqlite.connect("users.db") as db:
+        async with db.execute("SELECT name FROM ref") as cursor:
+            builder = InlineKeyboardBuilder()
+            async for name, in cursor:
+                #print(name)
+                builder.button(text=name, callback_data=refchoose(nick=name))
+            builder.button(text="Добавить рефа✏", callback_data='addref')
+            builder.adjust(1)
+    if call.data == 'backtoreflist':
+        await bot.edit_message_text("Рефы", call.message.chat.id, call.message.message_id, reply_markup=builder.as_markup())
+    else:
+        await bot.send_message(call.message.chat.id, "Рефы", reply_markup=builder.as_markup())
+
+
+
+розсилка
+
+    async with aiosqlite.connect("users.db") as db:
+        succ = 0
+        unsucc = 0
+        async with db.execute("SELECT id FROM users") as cursor:
+            async for i in cursor:
+                try:
+                    await bot.send_message(i[0], text, parse_mode="HTML", reply_markup=kb, disable_web_page_preview=True)
+                    succ+=1
+                except Exception as e:
+                    unsucc+=1
+                    #await bot.send_message(message.chat.id, f"Не удалось прислать сообщение пользователю {i[0]}\nПричина: {e}")
+
+оп
+
+    async with aiosqlite.connect("users.db") as db:
+        async with db.execute('SELECT link, id FROM op') as cursor:
+            builder = InlineKeyboardBuilder()
+            async for i, j in cursor:
+                builder.button(text=i, url=i)
+                builder.button(text="❌", callback_data=del_chn(id_=j))
+            builder.button(text="Добавить канал✍🏻", callback_data='add')
+            builder.adjust(2, 2)
+            #buttons = [[InlineKeyboardButton(text="❌", callback_data=del_(id_=1).pack())]]
+            #kb = InlineKeyboardMarkup(inline_keyboard=buttons)
+            #kb.add(InlineKeyboardButton(text="Добавить канал✍🏻", callback_data="add"))]
+    await bot.send_message(call.message.chat.id, "Каналы:", reply_markup=builder.as_markup())
+
+   @router.callback_query(del_chn.filter(), AdminFilter())
+async def delete(call: CallbackQuery, callback_data: del_chn):
+    print(callback_data.id_)
+    try:
+        async with aiosqlite.connect("users.db") as db:
+            await db.execute(f"delete from op where id = {callback_data.id_}")
+            await db.commit()
+            await bot.send_message(call.message.chat.id, f"Канал удален")
+    except Exception as e:
+        await bot.send_message(call.message.chat.id, f"Не удалось удалить канал\nПричина: {e}")
+
+
+реф
+
+    async with aiosqlite.connect("users.db") as db:
+        async with db.execute("SELECT name FROM ref") as cursor:
+            builder = InlineKeyboardBuilder()
+            async for name, in cursor:
+                #print(name)
+                builder.button(text=name, callback_data=refchoose(nick=name))
+            builder.button(text="Добавить рефа✏", callback_data='addref')
+            builder.adjust(1)
+
+    async with aiosqlite.connect("users.db") as db:
+        await db.execute(f'insert into ref("name") values("{message.text}")')
+        await db.commit()
+
+    async with aiosqlite.connect("users.db") as db:
+        async with db.execute(f"SELECT * FROM ref where name = '{callback_data.nick}'") as cursor:
+            async for name, amount in cursor:
+
+        async with aiosqlite.connect("users.db") as db:
+        await db.execute(f"delete from ref where name = '{callback_data.nick}'")
+
+sql
+
+    try:
+        async with aiosqlite.connect("users.db") as db:
+            cursor = await db.execute(message.text)
+            await db.commit()
+            await bot.send_message(message.chat.id, f"Запрос выполнен успешно\n\n{await cursor.fetchall()}")
+    except Exception as e:
+        await bot.send_message(message.chat.id, f"Не удалось выполнить запрос {message.text}\nПричина: {e}")
+    await state.clear()
