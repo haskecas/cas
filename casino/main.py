@@ -6,13 +6,14 @@ from bot import mainbot, mainrouter, deposit, withdraw
 from aiogram.fsm.storage.memory import MemoryStorage
 from databaseclass import *
 from filters import ThrottlingMiddleware
+from background import keep_alive
 
 
 async def main():
     bot = Bot(token=token)
     dp = Dispatcher(storage=MemoryStorage())
     await ChannelDb.cash_link_id()
-    await create_tables()
+    keep_alive()
     routers = [
         mainadm.router,
         mailing.router,
