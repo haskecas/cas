@@ -1,8 +1,5 @@
 aiogram==3.0.0b6
 flask
 asyncpg
-aiosqlite
-bitcoinlib
-mnemonic
 cachetools
 aiocryptopay
