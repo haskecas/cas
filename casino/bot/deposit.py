@@ -39,6 +39,7 @@ async def cryptobot(message: Message, state: FSMContext):
             summ = round(float(message.text), 2)
             invoice = await crypto.create_invoice(asset='USDT', amount=float(message.text)*1.03, expires_in=60 * expiration,
                                                   payload=str(message.text))
+            print(invoice)
             buttons = [
                 [InlineKeyboardButton(text="Оплатить↗", url=invoice.pay_url)],
                 [InlineKeyboardButton(text="Проверить оплату✅",
