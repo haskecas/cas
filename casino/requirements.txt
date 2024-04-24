@@ -1,5 +1,7 @@
+certifi==2022.12.7
 aiogram==3.0.0b6
 flask
 asyncpg
 cachetools
-aiocryptopay
+aiocryptopay==0.3.0
+aiosqlite
