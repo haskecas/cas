@@ -5,4 +5,4 @@ aiosqlite
 bitcoinlib
 mnemonic
 cachetools
-aiocryptopay==0.3.0
+aiocryptopay
